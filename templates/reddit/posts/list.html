@@ -1,0 +1,22 @@
+{% extends 'reddit/base.html' %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for post in posts %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title"><a href={{post.get_absolute_url}} class="card-link">{{post.title}}</a></h5>
+        <p class="card-text">{{post.body|truncatewords:10|linebreaks}}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted ">Published {{post.publish}} by {{post.author}}</small>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock content %}
