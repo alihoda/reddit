@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-
+from django.utils.text import slugify
 from taggit.managers import TaggableManager
-
 
 User = get_user_model()
 
@@ -41,6 +42,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", args=[self.publish.year, self.publish.month, self.publish.day, self.slug])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Post, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):

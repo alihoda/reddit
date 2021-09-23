@@ -11,6 +11,18 @@
     {% for tag in post.tags.all %}
     <span class="badge bg-primary">{{tag}}</span>
     {% endfor %}
+
+    <hr />
+    {% if similar_posts %}
+    <h4>Similar Posts</h4>
+    {% for s_post in similar_posts %}
+    <p>
+      <a href="{{ s_post.get_absolute_url }}">{{ s_post.title }}</a>
+    </p>
+    {% endfor %}
+    {% else %}
+    <small class="text-muted">There is no similar post!!</small>
+    {% endif %}
   </div>
 </div>
 
