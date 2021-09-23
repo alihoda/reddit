@@ -1,17 +1,20 @@
-from typing import Optional
-from django.db import models
-from posts.models import Post
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views import generic
+from taggit.models import Tag
 
 from posts.models import Post
 
 
 class PostListView(generic.ListView):
-    queryset = Post.objects.all()
     context_object_name = 'posts'
     paginate_by = 5
     template_name = 'reddit/posts/list.html'
+
+    def get_queryset(self):
+        if 'tag_slug' in self.kwargs:
+            tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+            return Post.objects.filter(tags__in=[tag])
+        return Post.objects.all()
 
 
 class PostDetailView(generic.DetailView):

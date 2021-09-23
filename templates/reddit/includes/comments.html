@@ -1,0 +1,14 @@
+{% load humanize %}
+
+{% if comments %}
+<div class="list-group list-group-flush">
+  {% for comment in comments %}
+  <div class="list-group-item" aria-current="true">
+    <p class="mb-1">{{comment.body|linebreaks}}</p>
+    <small>Commented {{comment.created_at|naturaltime}} by {{comment.user}}</small>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>There is no comment</p>
+{% endif %}

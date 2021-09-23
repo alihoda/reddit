@@ -3,6 +3,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
+from taggit.managers import TaggableManager
+
+
 User = get_user_model()
 
 
@@ -28,6 +31,7 @@ class Post(models.Model):
 
     objects = models.Manager()
     published = PublishManager()
+    tags = TaggableManager()
 
     class Meta:
         ordering = ('-publish',)
@@ -37,3 +41,20 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", args=[self.publish.year, self.publish.month, self.publish.day, self.slug])
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=150)
+    body = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created_at',)
+
+    def __str__(self) -> str:
+        return f'{self.name} commented on {self.post}'
