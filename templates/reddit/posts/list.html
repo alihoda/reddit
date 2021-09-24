@@ -14,7 +14,7 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title"><a href={{post.get_absolute_url}} class="card-link">{{post.title}}</a></h5>
-            <p class="card-text">{{post.body|truncatewords:10|linebreaks}}</p>
+            <p class="card-text">{{post.body|markdown|truncatewords_html:10}}</p>
             {% for tag in post.tags.all %}
             <a href="{% url 'posts:tag_post_list' tag.slug %}" <span class="badge bg-primary">{{tag}}</span></a>
             {% endfor %}
