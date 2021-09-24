@@ -1,0 +1,15 @@
+<h4>Latest Published Posts</h4>
+<ul class="list-group">
+  {% for post in latest_posts %}
+  <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+  {% endfor %}
+</ul>
+
+<br />
+
+<h4>Most Commented Published Posts</h4>
+<ul class="list-group">
+  {% for post in most_commented %}
+  <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+  {% endfor %}
+</ul>
